@@ -15,7 +15,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
 import Utils.Utils;
-
+import wolf_vision.ImagePrep;
 // https://github.com/opencv-java/getting-started/blob/master/FXHelloCV/src/it/polito/elite/teaching/cv/FXHelloCVController.java
 
 public class Controller {
@@ -37,6 +37,7 @@ public class Controller {
     private static String out_footage = "C:\\Users\\lixin\\Downloads\\path_output1.avi";
 
     private boolean footageOpened = false;
+    private ImagePrep imgPrep = new ImagePrep(10);
     @FXML
     void startCamera(ActionEvent event) {
     	if (!this.cameraActive) {
@@ -53,8 +54,14 @@ public class Controller {
     				public void run() {
     					Mat frame = grabFrame(capture);
     					Mat outputCV = grabFrame(capture2);
+    					
+    					imgPrep.set_frame(frame);
+    					imgPrep.kmeans(3);
+    					
     					Image imageToShow = Utils.mat2Image(frame);
-    					Image outputImage = Utils.mat2Image(outputCV);
+    					Image outputImage = Utils.mat2Image(imgPrep.resultImg);
+    					
+    					imgPrep.debug();
     					updateImageView(currentFrame, imageToShow);
     					updateImageView(outputFrame, outputImage);
     				}
