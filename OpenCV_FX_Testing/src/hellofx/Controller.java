@@ -37,7 +37,7 @@ public class Controller {
     private static String out_footage = "C:\\Users\\lixin\\Downloads\\path_output1.avi";
 
     private boolean footageOpened = false;
-    private ImagePrep imgPrep = new ImagePrep(10);
+    private ImagePrep imgPrep = new ImagePrep();
     @FXML
     void startCamera(ActionEvent event) {
     	if (!this.cameraActive) {
@@ -56,7 +56,8 @@ public class Controller {
     					Mat outputCV = grabFrame(capture2);
     					
     					imgPrep.set_frame(frame);
-    					imgPrep.kmeans(3);
+    					imgPrep.slice_by_size(25, 25);
+    					imgPrep.local_kmeans(2,4);
     					
     					Image imageToShow = Utils.mat2Image(frame);
     					Image outputImage = Utils.mat2Image(imgPrep.resultImg);
