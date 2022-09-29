@@ -59,7 +59,7 @@ public class Controller {
     					Mat frame = grabFrame(capture);
     					Mat outputCV = grabFrame(capture2);
     					
-    					imgPrep.set_frame(frame);
+    					imgPrep.set_frame(frame, false);
     					imgPrep.slice_by_size(25, 25);
     					imgPrep.local_kmeans(2,4);
     					Mat local_kmeans = imgPrep.resultImg;
