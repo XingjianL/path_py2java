@@ -24,9 +24,13 @@ public class Controller {
     private Button start_btn;
 
     @FXML
-    private ImageView currentFrame;
+    private ImageView topleft;
     @FXML
-    private ImageView outputFrame;
+    private ImageView topright;
+    @FXML
+    private ImageView botright;
+    @FXML
+    private ImageView botleft;
     
     private ScheduledExecutorService timer;
     private VideoCapture capture = new VideoCapture();
@@ -58,13 +62,13 @@ public class Controller {
     					imgPrep.set_frame(frame);
     					imgPrep.slice_by_size(25, 25);
     					imgPrep.local_kmeans(2,4);
-    					
+    					Mat local_kmeans = imgPrep.resultImg;
     					Image imageToShow = Utils.mat2Image(frame);
-    					Image outputImage = Utils.mat2Image(imgPrep.resultImg);
+    					Image outputImage = Utils.mat2Image(local_kmeans);
     					
     					imgPrep.debug();
-    					updateImageView(currentFrame, imageToShow);
-    					updateImageView(outputFrame, outputImage);
+    					updateImageView(topleft, imageToShow);
+    					updateImageView(topright, outputImage);
     				}
     			};
     			this.timer = Executors.newSingleThreadScheduledExecutor();

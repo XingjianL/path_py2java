@@ -33,6 +33,10 @@ public class ImagePrep {
 	public ImagePrep() {
 	}
 	
+	public void set_input_to_result() {
+		this.inputImg = this.resultImg;
+	}
+	
 	/**
 	 * auto resizes inputImg to IMG_WIDTH and IMG_HEIGHT
 	 * @param frame inputImg
@@ -171,6 +175,8 @@ public class ImagePrep {
 			this.resultImg = this.processImg;
 		}
 	}
+	
+	
 	
 	public void debug() {
 		//System.out.printf("\nImagePrep:debug(): %d, %d",this.max_height_id, this.block_height);

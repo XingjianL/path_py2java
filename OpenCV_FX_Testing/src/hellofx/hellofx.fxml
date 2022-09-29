@@ -1,28 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.control.*?>
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hellofx.Controller">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="hellofx.Controller">
    <bottom>
-      <Button fx:id="start_btn" mnemonicParsing="false" onAction="#startCamera" text="Start Camera" BorderPane.alignment="CENTER" />
+      <Button fx:id="start_btn" mnemonicParsing="false" onAction="#startCamera" prefHeight="50.0" prefWidth="200.0" text="Start Camera" BorderPane.alignment="CENTER" />
    </bottom>
    <center>
-      <SplitPane dividerPositions="0.5083612040133779" prefHeight="160.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-        <items>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-               <children>
-                  <ImageView fx:id="currentFrame" fitHeight="195.0" fitWidth="301.0" layoutY="80.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-            </AnchorPane>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
-               <children>
-                  <ImageView fx:id="outputFrame" fitHeight="204.0" fitWidth="290.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true" />
-               </children>
-            </AnchorPane>
-        </items>
-      </SplitPane>
+      <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="tab1">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <GridPane prefHeight="509.0" prefWidth="1000.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="200.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="150.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <ImageView fx:id="topleft" fitHeight="240.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <ImageView fx:id="botleft" fitHeight="240.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                              <ImageView fx:id="topright" fitHeight="240.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                              <ImageView fx:id="botright" fitHeight="240.0" fitWidth="320.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" />
+                           </children>
+                        </GridPane>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Untitled Tab 2">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+            </content>
+          </Tab>
+        </tabs>
+      </TabPane>
    </center>
 </BorderPane>
