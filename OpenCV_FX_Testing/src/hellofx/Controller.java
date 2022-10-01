@@ -16,6 +16,7 @@ import javafx.scene.image.Image;
 
 import Utils.Utils;
 import wolf_vision.ImagePrep;
+import wolf_vision.Path;
 // https://github.com/opencv-java/getting-started/blob/master/FXHelloCV/src/it/polito/elite/teaching/cv/FXHelloCVController.java
 
 public class Controller {
@@ -41,7 +42,10 @@ public class Controller {
     private static String out_footage = "C:\\Users\\lixin\\Downloads\\path_output1.avi";
 
     private boolean footageOpened = false;
-    private ImagePrep imgPrep = new ImagePrep();
+    private Path path_process = new Path();
+    private ImagePrep path_prep = path_process;
+    private Path path_process2 = new Path();
+    private ImagePrep path_prep2 = path_process2;
     @FXML
     void startCamera(ActionEvent event) {
     	if (!this.cameraActive) {
@@ -59,16 +63,22 @@ public class Controller {
     					Mat frame = grabFrame(capture);
     					Mat outputCV = grabFrame(capture2);
     					
-    					imgPrep.set_frame(frame, false);
-    					imgPrep.slice_by_size(25, 25);
-    					imgPrep.local_kmeans(2,4);
-    					Mat local_kmeans = imgPrep.resultImg;
+    					path_prep.setFrame(frame);
+    					path_prep2.setFrame(frame);
+    					path_prep.sliceSize(25, 25);
+    					path_prep2.sliceSize(25, 25);
+    					path_prep.localKmeans(2,4);
+    					path_prep2.localKmeans(2,2);
+    					Mat local_kmeans = path_prep.resultImg;
+    					Mat test = path_prep2.resultImg;
+    					path_process.iteratePathBinaryPCA(local_kmeans);
     					Image imageToShow = Utils.mat2Image(frame);
     					Image outputImage = Utils.mat2Image(local_kmeans);
-    					
-    					imgPrep.debug();
+    					Image debug1 = Utils.mat2Image(test);
+    					path_process.debug();
     					updateImageView(topleft, imageToShow);
     					updateImageView(topright, outputImage);
+    					updateImageView(botleft, debug1);
     				}
     			};
     			this.timer = Executors.newSingleThreadScheduledExecutor();
