@@ -5,7 +5,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.opencv.videoio.VideoCapture;
-import org.opencv.imgproc.Imgproc;
 import org.opencv.core.Mat;
 
 import javafx.event.ActionEvent;
@@ -71,14 +70,17 @@ public class Controller {
     					path_prep2.localKmeans(2,2);
     					Mat local_kmeans = path_prep.resultImg;
     					Mat test = path_prep2.resultImg;
-    					path_process.iteratePathBinaryPCA(local_kmeans);
+    					Mat pca_draw = path_process.iteratePathBinaryPCAAndDraw(local_kmeans);
+    					//= path_process.drawPCA(frame);
     					Image imageToShow = Utils.mat2Image(frame);
     					Image outputImage = Utils.mat2Image(local_kmeans);
     					Image debug1 = Utils.mat2Image(test);
+    					Image results = Utils.mat2Image(pca_draw);
     					path_process.debug();
     					updateImageView(topleft, imageToShow);
     					updateImageView(topright, outputImage);
     					updateImageView(botleft, debug1);
+    					updateImageView(botright, results);
     				}
     			};
     			this.timer = Executors.newSingleThreadScheduledExecutor();
