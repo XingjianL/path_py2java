@@ -66,14 +66,14 @@ public class ImagePrep {
 				this.IMG_WIDTH = (int) (frame.width()*SCALE);
 				resized = true;
 			}
-			System.out.println((int)frame.width());
+			//System.out.println((int)frame.width());
 			Imgproc.resize(frame, this.inputImg, new Size(this.IMG_WIDTH, this.IMG_HEIGHT));
 		} catch (Exception e){
 			e.printStackTrace();
 		}
 		//
 		this.image_size = this.inputImg.size();
-		System.out.println(this.image_size);
+		//System.out.println(this.image_size);
 	}
 	
 	private boolean checkBounds() {
@@ -123,7 +123,7 @@ public class ImagePrep {
 		
 		this.block_width = block_width;
 		this.block_height = block_height;
-		System.out.println(this.image_size.width);
+		//System.out.println(this.image_size.width);
 		this.max_width_id = (int)(this.image_size.width / this.block_width - 1);
 		this.max_height_id = (int)(this.image_size.height / this.block_height - 1);
 		this.IMG_WIDTH = (this.max_width_id + 1) * this.block_width;
@@ -253,7 +253,7 @@ public class ImagePrep {
 				double[] color = gray_image.get(h, w);
 				if (!unique_colors.contains((int)color[0])) {
 					unique_colors.add((int)color[0]);
-					System.out.println((int)color[0]);
+					//System.out.println((int)color[0]);
 				}
 			}
 		}
@@ -262,6 +262,6 @@ public class ImagePrep {
 	
 	public void debug() {
 		//System.out.printf("\nImagePrep:debug(): %d, %d",this.max_height_id, this.block_height);
-		System.out.println("done processing");
+		System.out.println("done processing\n");
 	}
 }
