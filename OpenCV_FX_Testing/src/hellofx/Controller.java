@@ -36,15 +36,15 @@ public class Controller {
     private VideoCapture capture = new VideoCapture();
     private VideoCapture capture2 = new VideoCapture();
     private boolean cameraActive = false;
-    private static int cameraId = 0;
+    //private static int cameraId = 0;
     private static String video_footage = "C:\\Users\\lixin\\Downloads\\manual_path_edited1.mp4";
     private static String out_footage = "C:\\Users\\lixin\\Downloads\\path_output1.avi";
 
     private boolean footageOpened = false;
     private Path path_process = new Path();
     private ImagePrep path_prep = path_process;
-    private Path path_process2 = new Path();
-    private ImagePrep path_prep2 = path_process2;
+    //private Path path_process2 = new Path();
+    //private ImagePrep path_prep2 = path_process2;
     @FXML
     void startCamera(ActionEvent event) {
     	if (!this.cameraActive) {
@@ -63,18 +63,18 @@ public class Controller {
     					Mat outputCV = grabFrame(capture2);
     					
     					path_prep.setFrame(frame);
-    					path_prep2.setFrame(frame);
+    					//path_prep2.setFrame(frame);
     					path_prep.sliceSize(25, 25);
-    					path_prep2.sliceSize(25, 25);
+    					//path_prep2.sliceSize(25, 25);
     					path_prep.localKmeans(2,4);
-    					path_prep2.localKmeans(2,2);
+    					//path_prep2.localKmeans(2,2);
     					Mat local_kmeans = path_prep.resultImg;
-    					Mat test = path_prep2.resultImg;
+    					//Mat test = path_prep2.resultImg;
     					Mat pca_draw = path_process.iteratePathBinaryPCAAndDraw(local_kmeans);
     					//= path_process.drawPCA(frame);
     					Image imageToShow = Utils.mat2Image(frame);
     					Image outputImage = Utils.mat2Image(local_kmeans);
-    					Image debug1 = Utils.mat2Image(test);
+    					Image debug1 = Utils.mat2Image(outputCV);
     					Image results = Utils.mat2Image(pca_draw);
     					path_process.debug();
     					updateImageView(topleft, imageToShow);
@@ -84,7 +84,7 @@ public class Controller {
     				}
     			};
     			this.timer = Executors.newSingleThreadScheduledExecutor();
-    			this.timer.scheduleAtFixedRate(frameGrabber, 0, 33, TimeUnit.MILLISECONDS);
+    			this.timer.scheduleAtFixedRate(frameGrabber, 0, 100, TimeUnit.MILLISECONDS);
     			
     			this.start_btn.setText("Stop Footage");
     		} else {
