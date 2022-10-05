@@ -144,7 +144,7 @@ public class ImagePrep {
 		data.convertTo(data_32f, CvType.CV_32F);
 		Mat bestLabels = new Mat();
 		TermCriteria criteria = new TermCriteria(TermCriteria.COUNT,100,1);
-		int attempts = 1;
+		int attempts = 3;
 		int flags = Core.KMEANS_PP_CENTERS;
 		Mat center = new Mat();
 
