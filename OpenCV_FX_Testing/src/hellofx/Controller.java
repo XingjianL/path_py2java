@@ -1,11 +1,13 @@
 package hellofx;
 
+import java.io.File;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import org.opencv.videoio.VideoCapture;
 import org.opencv.core.Mat;
+import org.opencv.imgcodecs.Imgcodecs;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 
 import Utils.Utils;
+import wolf_vision.Buoy;
 import wolf_vision.ImagePrep;
 import wolf_vision.Path;
 // https://github.com/opencv-java/getting-started/blob/master/FXHelloCV/src/it/polito/elite/teaching/cv/FXHelloCVController.java
@@ -21,14 +24,32 @@ import wolf_vision.Path;
 public class Controller {
 
     @FXML
+    private Button button_2;
+
+    @FXML
+    private ImageView botleft_2;
+
+    @FXML
     private Button start_btn;
 
     @FXML
     private ImageView topleft;
+
     @FXML
     private ImageView topright;
+
     @FXML
     private ImageView botright;
+
+    @FXML
+    private ImageView topleft_2;
+
+    @FXML
+    private ImageView botright_2;
+
+    @FXML
+    private ImageView topright_2;
+
     @FXML
     private ImageView botleft;
     
@@ -37,20 +58,26 @@ public class Controller {
     private VideoCapture capture2 = new VideoCapture();
     private boolean cameraActive = false;
     //private static int cameraId = 0;
-    private static String video_footage = "C:\\Users\\lixin\\Downloads\\manual_path_edited1.mp4";
-    private static String out_footage = "C:\\Users\\lixin\\Downloads\\path_output1.avi";
+    private static String video_path_footage = "C:\\Users\\lixin\\Downloads\\manual_path_edited1.mp4";
+    private static String out_path_footage = "C:\\Users\\lixin\\Downloads\\path_output1.avi";
 
+    private static String tommygun_imgs_dir = "C:\\Users\\lixin\\Downloads\\tommy_guns-20221014T181830Z-001\\tommy_guns";
+    private int tommygun_img_id = 0;
+    private File[] tommygun_imgs = new File(tommygun_imgs_dir).listFiles();
+    
     private boolean footageOpened = false;
     private Path path_process = new Path();
     private ImagePrep path_prep = path_process;
+    private Buoy buoy_process = new Buoy();
+    private ImagePrep buoy_prep = buoy_process;
     //private Path path_process2 = new Path();
     //private ImagePrep path_prep2 = path_process2;
     @FXML
     void startCamera(ActionEvent event) {
     	if (!this.cameraActive) {
     		if (!this.footageOpened) {
-    			this.capture.open(video_footage);
-    			this.capture2.open(out_footage);
+    			this.capture.open(video_path_footage);
+    			this.capture2.open(out_path_footage);
     			this.footageOpened = true;
     		}
     		if(this.capture.isOpened()) {
@@ -98,6 +125,23 @@ public class Controller {
     	}
     }
 
+    @FXML
+    void cycleImage(ActionEvent event) {
+    	String currentFrame = tommygun_imgs[tommygun_img_id].toString();
+    	System.out.println(currentFrame);
+    	
+    	Mat frame = Imgcodecs.imread(currentFrame);
+    	
+    	buoy_prep.setFrame(frame);
+    	buoy_prep.sliceSize(25, 25);
+    	buoy_prep.localKmeans(2, 4);
+    	Mat local_kmeans = buoy_prep.resultImg;
+    	Image imageToShow = Utils.mat2Image(frame);
+    	Image image2 = Utils.mat2Image(local_kmeans);
+    	updateImageView(topleft_2, imageToShow);
+    	updateImageView(topright_2, image2);
+    	tommygun_img_id++;
+    }
     /*
 	 * Get a frame from the opened video stream (if any)
 	 *
