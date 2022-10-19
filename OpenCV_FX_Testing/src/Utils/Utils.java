@@ -18,7 +18,7 @@ import javafx.scene.image.Image;
  * @author <a href="http://max-z.de">Maximilian Zuleger</a>
  * @version 1.0 (2016-09-17)
  * @since 1.0
- * 
+ *
  */
 public final class Utils
 {
@@ -41,11 +41,11 @@ public final class Utils
 			return null;
 		}
 	}
-	
+
 	/**
 	 * Generic method for putting element running on a non-JavaFX thread on the
 	 * JavaFX thread, to properly update the UI
-	 * 
+	 *
 	 * @param property
 	 *            a {@link ObjectProperty}
 	 * @param value
@@ -57,10 +57,10 @@ public final class Utils
 			property.set(value);
 		});
 	}
-	
+
 	/**
 	 * Support for the {@link mat2image()} method
-	 * 
+	 *
 	 * @param original
 	 *            the {@link Mat} object in BGR or grayscale
 	 * @return the corresponding {@link BufferedImage}
@@ -72,7 +72,7 @@ public final class Utils
 		int width = original.width(), height = original.height(), channels = original.channels();
 		byte[] sourcePixels = new byte[width * height * channels];
 		original.get(0, 0, sourcePixels);
-		
+
 		if (original.channels() > 1)
 		{
 			image = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
@@ -83,7 +83,7 @@ public final class Utils
 		}
 		final byte[] targetPixels = ((DataBufferByte) image.getRaster().getDataBuffer()).getData();
 		System.arraycopy(sourcePixels, 0, targetPixels, 0, sourcePixels.length);
-		
+
 		return image;
 	}
 }

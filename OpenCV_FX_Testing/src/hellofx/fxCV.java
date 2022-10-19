@@ -4,11 +4,11 @@ import org.opencv.core.Core;
 
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
-import javafx.fxml.FXMLLoader;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class fxCV extends Application {
 	@Override
@@ -28,10 +28,11 @@ public class fxCV extends Application {
 			primaryStage.setScene(scene);
 			// show the GUI
 			primaryStage.show();
-			
+
 			// set the proper behavior on closing the application
 			Controller controller = loader.getController();
 			primaryStage.setOnCloseRequest((new EventHandler<WindowEvent>() {
+				@Override
 				public void handle(WindowEvent we)
 				{
 					controller.setClosed();
@@ -45,7 +46,7 @@ public class fxCV extends Application {
 	}
 	/**
 	 * For launching the application...
-	 * 
+	 *
 	 * @param args
 	 *            optional params
 	 */
