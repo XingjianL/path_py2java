@@ -20,6 +20,7 @@ import wolf_vision.Buoy;
 import wolf_vision.ImagePrep;
 import wolf_vision.Path;
 // https://github.com/opencv-java/getting-started/blob/master/FXHelloCV/src/it/polito/elite/teaching/cv/FXHelloCVController.java
+import wolf_vision.nn;
 
 public class Controller {
 
@@ -64,12 +65,14 @@ public class Controller {
     private static String tommygun_imgs_dir = "/home/xing/TesterCodes/APRData/tommy_guns-20221014T181830Z-001/tommy_guns";
     private int tommygun_img_id = 0;
     private File[] tommygun_imgs = new File(tommygun_imgs_dir).listFiles();
+    private static String tommy_template = "/home/xing/TesterCodes/APRData/tommy_guns-20221014T181830Z-001/tommy_guns/Buoy_20legger_20pic_201.jpg";
     
     private boolean footageOpened = false;
     private Path path_process = new Path();
     private ImagePrep path_prep = path_process;
     private Buoy buoy_process = new Buoy();
     private ImagePrep buoy_prep = buoy_process;
+    private nn Network1 = new nn();
     //private Path path_process2 = new Path();
     //private ImagePrep path_prep2 = path_process2;
     @FXML
@@ -131,15 +134,31 @@ public class Controller {
     	System.out.println(currentFrame);
     	
     	Mat frame = Imgcodecs.imread(currentFrame);
-    	
+    	Mat template = Imgcodecs.imread(tommy_template);
+    	Mat horse = Imgcodecs.imread("/home/xing/TesterCodes/APRData/horse.jpg");
+    	Network1.loadModel();
+    	Mat yoloout = Network1.detect(frame);
     	buoy_prep.setFrame(frame);
     	buoy_prep.sliceSize(25, 25);
     	buoy_prep.localKmeans(2, 4);
     	Mat local_kmeans = buoy_prep.resultImg;
     	Image imageToShow = Utils.mat2Image(frame);
+    	//buoy_process.setTemplate(template);
+    	//buoy_process.siftSetTarget(frame);
+    	//buoy_process.compute();
+    	//Mat siftMatch_1 = buoy_process.drawKP(template, 0);
+    	//Mat siftMatch_2 = buoy_process.drawKP(frame, 1);
+    	//Mat siftMatch_3 = buoy_process.drawKP(frame, 2);
     	Image image2 = Utils.mat2Image(local_kmeans);
+    	//Image siftImage_1 = Utils.mat2Image(siftMatch_1);
+    	//Image siftImage_2 = Utils.mat2Image(siftMatch_2);
+    	//Image siftImage_3 = Utils.mat2Image(siftMatch_3);
+    	Image yolo_src = Utils.mat2Image(frame);
+    	Image yolo_out = Utils.mat2Image(yoloout);
     	updateImageView(topleft_2, imageToShow);
-    	updateImageView(topright_2, image2);
+    	//updateImageView(topright_2, siftImage_3);
+    	updateImageView(botleft_2, yolo_src);
+    	updateImageView(botright_2, yolo_out);
     	tommygun_img_id++;
     }
     /*
