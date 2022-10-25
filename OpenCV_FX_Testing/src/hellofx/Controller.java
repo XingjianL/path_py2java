@@ -20,7 +20,7 @@ import wolf_vision.Buoy;
 import wolf_vision.ImagePrep;
 import wolf_vision.Path;
 // https://github.com/opencv-java/getting-started/blob/master/FXHelloCV/src/it/polito/elite/teaching/cv/FXHelloCVController.java
-import wolf_vision.nn;
+import wolf_vision.nn_cv2;
 
 public class Controller {
 
@@ -71,7 +71,7 @@ public class Controller {
     private ImagePrep path_prep = path_process;
     private Buoy buoy_process = new Buoy();
     private ImagePrep buoy_prep = buoy_process;
-    private nn Network1 = new nn();
+    private nn_cv2 Network1 = new nn_cv2();
     //private Path path_process2 = new Path();
     //private ImagePrep path_prep2 = path_process2;
     @FXML
