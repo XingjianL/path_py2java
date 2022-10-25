@@ -59,13 +59,12 @@ public class Controller {
     private VideoCapture capture2 = new VideoCapture();
     private boolean cameraActive = false;
     //private static int cameraId = 0;
-    private static String video_path_footage = "/home/xing/TesterCodes/APRData/manual_path_edited1.mp4";
-    private static String out_path_footage = "/home/xing/TesterCodes/APRData/path_output1.avi";
+    private static String video_path_footage = "C:\\Users\\lixin\\Downloads\\manual_path_edited1.mp4";
+    private static String out_path_footage = "C:\\Users\\lixin\\Downloads\\path_output1.avi";
 
-    private static String tommygun_imgs_dir = "/home/xing/TesterCodes/APRData/tommy_guns-20221014T181830Z-001/tommy_guns";
+    private static String tommygun_imgs_dir = "C:\\Users\\lixin\\Downloads\\tommy_guns-20221014T181830Z-001/tommy_guns";
     private int tommygun_img_id = 0;
     private File[] tommygun_imgs = new File(tommygun_imgs_dir).listFiles();
-    private static String tommy_template = "/home/xing/TesterCodes/APRData/tommy_guns-20221014T181830Z-001/tommy_guns/Buoy_20legger_20pic_201.jpg";
     
     private boolean footageOpened = false;
     private Path path_process = new Path();
@@ -134,8 +133,7 @@ public class Controller {
     	System.out.println(currentFrame);
     	
     	Mat frame = Imgcodecs.imread(currentFrame);
-    	Mat template = Imgcodecs.imread(tommy_template);
-    	Mat horse = Imgcodecs.imread("/home/xing/TesterCodes/APRData/horse.jpg");
+    	Mat horse = Imgcodecs.imread("C:\\Users\\lixin\\Downloads\\horse.jpg");
     	Network1.loadModel();
     	Mat yoloout = Network1.detect(frame);
     	buoy_prep.setFrame(frame);
