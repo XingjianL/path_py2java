@@ -21,7 +21,9 @@ public class nn_cv2 extends ImagePrep{
     private Scanner class_scan;
     private List<String> classes = new ArrayList<>();
     
-    List<String> outBlobNames = new ArrayList<>();
+    private List<String> outBlobNames = new ArrayList<>();
+	public List<Integer> last_output = new ArrayList<>();
+	public List<Rect2d> output_description = new ArrayList<>();
 	
 	public void loadModel() {
 		this.net = Dnn.readNetFromDarknet(cfg_path, weights_path);
@@ -49,6 +51,8 @@ public class nn_cv2 extends ImagePrep{
 	}
 	
 	public Mat detect(Mat image) {
+		 last_output.clear();
+	     output_description.clear();
 		 List<Mat> result = new ArrayList<>();
 	     Mat blob = Dnn.blobFromImage(image, 1/255.0, new Size(416, 416), new Scalar(0), true, false);
 		 this.net.setInput(blob);
@@ -105,10 +109,13 @@ public class nn_cv2 extends ImagePrep{
 		            //i=j;
 		     System.out.println(clsIds.get(i));
 		     System.out.println(classes.get(clsIds.get(i)));
+		     last_output.add(clsIds.get(i));
+		     output_description.add(box);
 		 }
 		 return output;
 		     
 	}
+	
 	private static List<String> getOutputNames(Net net) {
 		List<String> names = new ArrayList<>();
 

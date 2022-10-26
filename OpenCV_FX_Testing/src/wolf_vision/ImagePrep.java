@@ -231,7 +231,7 @@ public class ImagePrep {
 		return ret;
 	}
 	/**
-	 * receive a binary image and return the coordinates of high pixels
+	 * receive a binary image and return the coordinates of high pixels (value 1)
 	 * @param binary_image
 	 * @return
 	 */
@@ -257,7 +257,7 @@ public class ImagePrep {
 	protected List<Integer> uniqueColor(Mat gray_image) {
 		List<Integer> unique_colors = new ArrayList<>();
 		for (int h = 0; h < gray_image.height(); h++) {
-			for (int w = 0; w< gray_image.width(); w++) {
+			for (int w = 0; w < gray_image.width(); w++) {
 				double[] color = gray_image.get(h, w);
 				if (!unique_colors.contains((int)color[0])) {
 					unique_colors.add((int)color[0]);
