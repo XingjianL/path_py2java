@@ -12,6 +12,12 @@ import java.io.FileNotFoundException;
 
 import org.opencv.core.*;
 
+/**
+ * Code for general opencv dnn tasks, currently fit to run yolov3
+ * @author Xingjian Li
+ *
+ */
+
 public class nn_cv2 extends ImagePrep{
 	private static String cfg_path = "D:\\eclipse-workspace\\Data\\models\\yolov3.cfg";
 	private static String weights_path = "D:\\eclipse-workspace\\Data\\models\\yolov3.weights";
@@ -22,7 +28,7 @@ public class nn_cv2 extends ImagePrep{
     private List<String> classes = new ArrayList<>();
     
     private List<String> outBlobNames = new ArrayList<>();
-	public List<Integer> last_output = new ArrayList<>();
+	public List<Integer> output = new ArrayList<>();
 	public List<Rect2d> output_description = new ArrayList<>();
 	
 	public void loadModel() {
@@ -35,6 +41,9 @@ public class nn_cv2 extends ImagePrep{
 		this.outBlobNames = getOutputNames(net);
 		loadClasses();
 	}
+	/**
+	 * only necessary if the name is needed (in debugging), should not be needed for actual code
+	 */
 	private void loadClasses() {
 		this.class_file = new File(classes_path);
 		classes.clear();
@@ -51,7 +60,7 @@ public class nn_cv2 extends ImagePrep{
 	}
 	
 	public Mat detect(Mat image) {
-		 last_output.clear();
+		 output.clear();
 	     output_description.clear();
 		 List<Mat> result = new ArrayList<>();
 	     Mat blob = Dnn.blobFromImage(image, 1/255.0, new Size(416, 416), new Scalar(0), true, false);
@@ -100,19 +109,19 @@ public class nn_cv2 extends ImagePrep{
 
 		 int [] ind = indices.toArray();
 		 int j=0;
-		 Mat output = image.clone();
+		 Mat out = image.clone();
 		 for (int i = 0; i < ind.length; ++i)
 		 {
 			 int idx = ind[i];
 		     Rect2d box = boxesArray[idx];
-		     Imgproc.rectangle(output, box.tl(), box.br(), new Scalar(0,0,255), 2);
+		     Imgproc.rectangle(out, box.tl(), box.br(), new Scalar(0,0,255), 2);
 		            //i=j;
 		     System.out.println(clsIds.get(i));
 		     System.out.println(classes.get(clsIds.get(i)));
-		     last_output.add(clsIds.get(i));
+		     output.add(clsIds.get(i));
 		     output_description.add(box);
 		 }
-		 return output;
+		 return out;
 		     
 	}
 	

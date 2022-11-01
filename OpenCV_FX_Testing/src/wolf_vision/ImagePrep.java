@@ -14,6 +14,17 @@ import org.opencv.core.Size;
 import org.opencv.core.TermCriteria;
 import org.opencv.imgproc.Imgproc;
 
+/**
+ * Base for all image processing modules
+ * - holds input image and its properties
+ * - preprocessing tasks
+ * 		- slice image to blocks
+ * 		- kmeans (by blocks)
+ * 		- PCA of a binary image
+ * 		- more
+ * @author Xingjian Li
+ *
+ */
 public class ImagePrep {
 	private int IMG_WIDTH = 200;
 	private int IMG_HEIGHT = 200;

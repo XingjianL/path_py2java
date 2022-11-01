@@ -5,6 +5,11 @@ import java.util.List;
 import org.opencv.core.*;
 import org.opencv.imgproc.Imgproc;
 
+/**
+ * Code for "Mark the Grade" task
+ * @author Xingjian Li
+ *
+ */
 
 public class Buoy extends nn_cv2 {
 	private static String cfg_path = "D:\\eclipse-workspace\\Data\\models\\yolov3.cfg";
@@ -21,35 +26,41 @@ public class Buoy extends nn_cv2 {
 	public void load_buoy_model() {
 		super.loadModel(cfg_path, weights_path);
 	}
+	
 	// turn the detected point into [x,y,z]
 	public void transAlign() {
-		if (Bootlegger && super.last_output.indexOf(bootlegger_classid) >= 0) {
-			// topleft coordinate
-			double x =  super.output_description.get(super.last_output.indexOf(bootlegger_classid)).x +
-						super.output_description.get(super.last_output.indexOf(bootlegger_classid)).width / 2;
-			double y =  super.output_description.get(super.last_output.indexOf(bootlegger_classid)).y +
-						super.output_description.get(super.last_output.indexOf(bootlegger_classid)).height / 2;
+		// aiming for Bootlegger, and Bootlegger detected
+		if (Bootlegger && super.output.indexOf(bootlegger_classid) >= 0) {
+			// middle coordinate, top left + width or height
+			double x =  super.output_description.get(super.output.indexOf(bootlegger_classid)).x +
+						super.output_description.get(super.output.indexOf(bootlegger_classid)).width / 2;
+			double y =  super.output_description.get(super.output.indexOf(bootlegger_classid)).y +
+						super.output_description.get(super.output.indexOf(bootlegger_classid)).height / 2;
 			this.translation[0] = x;
 			this.translation[2] = y;
 			// min dist would be when the object takes the entire image
 			double min_dist = super.processImg.rows() * super.processImg.height();
 			// higher distance means further away, normalized between [0,1]
-			double distance = min_dist - super.output_description.get(super.last_output.indexOf(bootlegger_classid)).area()/min_dist;
+			double distance = (min_dist - super.output_description.get(super.output.indexOf(bootlegger_classid)).area())/min_dist;
 			this.translation[1] = distance;
 		}
-		if (GMan && super.last_output.indexOf(GMan_classid) >= 0) {
-			double x =  super.output_description.get(super.last_output.indexOf(GMan_classid)).x +
-						super.output_description.get(super.last_output.indexOf(GMan_classid)).width / 2;
-			double y =  super.output_description.get(super.last_output.indexOf(GMan_classid)).y +
-						super.output_description.get(super.last_output.indexOf(GMan_classid)).height / 2;
+		
+		// aiming for GMan, and GMan detected
+		if (GMan && super.output.indexOf(GMan_classid) >= 0) {
+			double x =  super.output_description.get(super.output.indexOf(GMan_classid)).x +
+						super.output_description.get(super.output.indexOf(GMan_classid)).width / 2;
+			double y =  super.output_description.get(super.output.indexOf(GMan_classid)).y +
+						super.output_description.get(super.output.indexOf(GMan_classid)).height / 2;
 			this.translation[0] = x;
 			this.translation[2] = y;
 			// min dist would be when the object takes the entire image
 			double min_dist = super.processImg.rows() * super.processImg.height();
 			// higher distance means further away, normalized between [0,1]
-			double distance = (min_dist - super.output_description.get(super.last_output.indexOf(GMan_classid)).area())/min_dist;
+			double distance = (min_dist - super.output_description.get(super.output.indexOf(GMan_classid)).area())/min_dist;
 			this.translation[1] = distance;
 		}
+		
+		// transform the target with respect to the center of image
 		this.translation[0] -= super.processImg.cols()/2;
 		this.translation[2] -= super.processImg.rows()/2;
 	}
